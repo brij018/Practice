@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuck Off</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        #container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        #ascii-text {
+            white-space: pre;
+            font-size: 10px;
+            line-height: 10px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0000, #ff00ff, #00ffff, #ff0000);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 8s ease infinite, glitch 5s infinite;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.7));
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes glitch {
+            0%, 100% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                transparent 100%
+            );
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes scan {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ff0055;
+            border-radius: 50%;
+            animation: float-particle linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--tx));
+                opacity: 0;
+            }
+        }
+
+        .glow-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            font-weight: bold;
+            color: rgba(255, 0, 85, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 20px;
+            animation: pulse 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.05;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.15;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        .flicker {
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.95;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="glow-text">FUCK OFF</div>
+    <div class="scanline"></div>
+    <div class="vignette"></div>
+    
+    <div id="container">
+        <div id="ascii-text" class="flicker"></div>
+    </div>
+
+    <script>
+        const asciiArt = `
+███████╗██╗   ██╗ ██████╗██╗  ██╗     ██████╗ ███████╗███████╗
+██╔════╝██║   ██║██╔════╝██║ ██╔╝    ██╔═══██╗██╔════╝██╔════╝
+█████╗  ██║   ██║██║     █████╔╝     ██║   ██║█████╗  █████╗  
+██╔══╝  ██║   ██║██║     ██╔═██╗     ██║   ██║██╔══╝  ██╔══╝  
+██║     ╚██████╔╝╚██████╗██║  ██╗    ╚██████╔╝██║     ██║     
+╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝     ╚═╝     
+                                                                
+        ⚠️  ACCESS DENIED  ⚠️
+        ════════════════════
+        TURN BACK NOW
+        ════════════════════
+`;
+
+        document.getElementById('ascii-text').textContent = asciiArt;
+
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Random color shift
+        setInterval(() => {
+            const hue = Math.random() * 360;
+            document.getElementById('ascii-text').style.filter = 
+                `drop-shadow(0 0 10px hsla(${hue}, 100%, 50%, 0.7)) hue-rotate(${Math.random() * 30}deg)`;
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Heart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        /* Heart container */
+        .heart-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* SVG Heart */
+        .heart {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.8))
+                    drop-shadow(0 0 60px rgba(255, 105, 180, 0.5));
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+        }
+
+        .heart path {
+            fill: url(#heartGradient);
+            stroke: rgba(255, 255, 255, 0.3);
+            stroke-width: 2;
+        }
+
+        /* Floating hearts */
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.6);
+            animation: floatUp 4s ease-in infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Romantic message */
+        .message {
+            color: white;
+            font-size: 2.5rem;
+            font-style: italic;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            animation: fadeIn 2.5s ease-in;
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnim 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5) rotate(180deg) translate(var(--tx), var(--ty));
+            }
+        }
+
+        /* Particles orbiting the heart */
+        .orbit-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Glow pulse effect */
+        .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(255, 105, 180, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseRing 3s ease-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Rose petals */
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, #ffb6c1 0%, #ff69b4 100%);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.6;
+            animation: petalFall 8s linear infinite;
+        }
+
+        @keyframes petalFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Interactive hover area */
+        .heart-container:hover .heart {
+            animation: heartbeat 0.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 50px rgba(255, 105, 180, 1))
+                    drop-shadow(0 0 100px rgba(255, 105, 180, 0.7));
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .heart-container {
+                width: 300px;
+                height: 300px;
+            }
+            .message {
+                font-size: 2rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Rose petals -->
+    <div id="petals"></div>
+
+    <div class="container">
+        <div class="heart-container" id="heartContainer">
+            <!-- Glow rings -->
+            <div class="glow-ring" style="animation-delay: 0s;"></div>
+            <div class="glow-ring" style="animation-delay: 1s;"></div>
+            <div class="glow-ring" style="animation-delay: 2s;"></div>
+
+            <!-- SVG Heart -->
+            <svg class="heart" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#ff1493;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#c71585;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path d="M100,170 C100,170 30,120 30,80 C30,55 45,40 65,40 C80,40 90,50 100,65 C110,50 120,40 135,40 C155,40 170,55 170,80 C170,120 100,170 100,170 Z" 
+                      filter="url(#glow)"/>
+            </svg>
+        </div>
+
+        <div class="message">You said Yes! ♥</div>
+        <div class="subtitle">And that makes everything perfect...</div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Create floating hearts
+        const heartContainer = document.getElementById('heartContainer');
+        setInterval(() => {
+            const floatingHeart = document.createElement('div');
+            floatingHeart.className = 'floating-heart';
+            floatingHeart.innerHTML = '❤';
+            floatingHeart.style.left = Math.random() * 100 + '%';
+            floatingHeart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            floatingHeart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            floatingHeart.style.animationDelay = Math.random() * 1 + 's';
+            document.body.appendChild(floatingHeart);
+            
+            setTimeout(() => floatingHeart.remove(), 5000);
+        }, 800);
+
+        // Create rose petals
+        const petalsContainer = document.getElementById('petals');
+        setInterval(() => {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            petal.style.animationDelay = Math.random() * 2 + 's';
+            petalsContainer.appendChild(petal);
+            
+            setTimeout(() => petal.remove(), 10000);
+        }, 600);
+
+        // Sparkles on heart hover
+        heartContainer.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.6) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.setProperty('--tx', (Math.random() - 0.5) * 100 + 'px');
+                sparkle.style.setProperty('--ty', (Math.random() - 0.5) * 100 + 'px');
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1500);
+            }
+        });
+
+        // Orbiting particles
+        const numParticles = 8;
+        const orbitRadius = 220;
+        
+        for (let i = 0; i < numParticles; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'orbit-particle';
+            heartContainer.appendChild(particle);
+            
+            let angle = (i / numParticles) * Math.PI * 2;
+            
+            function animateParticle() {
+                angle += 0.02;
+                const x = Math.cos(angle) * orbitRadius + 200;
+                const y = Math.sin(angle) * orbitRadius + 200;
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                requestAnimationFrame(animateParticle);
+            }
+            
+            animateParticle();
+        }
+
+        // Click effect
+        heartContainer.addEventListener('click', () => {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    const rect = heartContainer.getBoundingClientRect();
+                    sparkle.style.left = (rect.left + rect.width / 2) + 'px';
+                    sparkle.style.top = (rect.top + rect.height / 2) + 'px';
+                    sparkle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                    sparkle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 1500);
+                }, i * 30);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 import express, { urlencoded } from "express"
  
 const app = express()
-const port = 5000
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +20,8 @@ app.get("/about",(req,res)=>{
     res.send("there is nothing to tell you bitches about")
 })
 
-app.listen(port, ()=>{
-    console.log("server is running on port", port)
-})
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
